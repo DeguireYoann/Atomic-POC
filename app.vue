@@ -8,15 +8,16 @@
 </template>
 
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig();
 const searchInterface = ref(null);
 
 async function initInterface() {
   try {
     if (searchInterface.value) {
       await searchInterface.value.initialize({
-        accessToken: 'xx4e3c86d2-5bbd-4f5e-bde8-5761fe2cd1ef',
-        organizationId: 'fabricepartnerorgv24xb8k7',
-        organizationEndpoints: await searchInterface.value.getOrganizationEndpoints('fabricepartnerorgv24xb8k7'),
+        accessToken: runtimeConfig.public.COVEO_API,
+        organizationId: runtimeConfig.public.COVEO_PROJECT_NAME,
+        organizationEndpoints: await searchInterface.value.getOrganizationEndpoints(runtimeConfig.public.COVEO_PROJECT_NAME),
       });
 
       await searchInterface.value.executeFirstSearch();

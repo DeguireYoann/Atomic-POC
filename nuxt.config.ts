@@ -27,5 +27,9 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    public: {
+      COVEO_PROJECT_NAME: process.env.COVEO_PROJECT_NAME,
+      COVEO_API: process.env.COVEO_API,
+    }
   },
 })
