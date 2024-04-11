@@ -1,0 +1,36 @@
+<!-- templates/result-template.html -->
+<template>
+    <atomic-result-fields-list>
+        <div class="w-full max-w-sm bg-white flex">
+            <a :href="path" class="flex align-center justify-center w-32 mr-2">
+                <atomic-result-image class="max-w-1/4" field="ec_image" fallback="/assets/image.svg" image-size=small>
+                </atomic-result-image>
+            </a>
+            <div class="px-5 pb-5 flex flex-col h-full">
+                <atomic-field-condition class="field" if-defined="ec_name">
+                    <a :href="path">
+                        <h5 class="text-xl font-semibold tracking-tight text-gray-900">
+                            <atomic-result-text field="ec_name"></atomic-result-text>
+                        </h5>
+                    </a>
+                </atomic-field-condition>
+                <atomic-field-condition class="field" if-defined="cat_condition">
+                    <result-text-field label="Condition" field="cat_condition"></result-text-field>
+                </atomic-field-condition>
+                <p class="text-gray-500 text-sm">By <a href="#" class="text-green-700 hover:underline">ABC Company</a>
+                </p>
+                <atomic-field-condition class="field" if-defined="cat_categories">
+                    <result-text-field label="Tags" field="cat_categories"></result-text-field>
+                </atomic-field-condition>
+            </div>
+            <div class="flex items-center flex flex-col h-full ml-auto">
+                <div class="rounded-lg bg-gray-100 flex py-2 px-3 mx-2">
+                    <span class="mr-1 mt-1">$</span>
+                    <span class="font-bold text-2xl">25</span>
+                    <span class="px1 flex items-end">each</span>
+                </div>
+                <button class="add-to-cart">Add to cart</button>
+            </div>
+        </div>
+    </atomic-result-fields-list>
+</template>
