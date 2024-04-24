@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@coveo/atomic": "^2.62.1",
+    "@coveo/headless": "^2.59.0",
+    "@coveo/headless-react": "^0.2.36",
     "nuxt": "^3.11.1",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.11.4",
-    "html-loader": "^5.0.0"
+    "html-loader": "^5.0.0",
+    "sass": "^1.75.0",
+    "sass-loader": "^14.2.0"
   }
 }

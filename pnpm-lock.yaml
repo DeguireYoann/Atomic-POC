@@ -7,10 +7,16 @@ settings:
 dependencies:
   '@coveo/atomic':
     specifier: ^2.62.1
-    version: 2.62.1(@coveo/headless@2.57.1)(encoding@0.1.13)(postcss@8.4.38)
+    version: 2.62.1(@coveo/headless@2.59.0)(encoding@0.1.13)(postcss@8.4.38)
+  '@coveo/headless':
+    specifier: ^2.59.0
+    version: 2.59.0(encoding@0.1.13)(pino-pretty@10.3.1)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1)
+  '@coveo/headless-react':
+    specifier: ^0.2.36
+    version: 0.2.36(encoding@0.1.13)(pino-pretty@10.3.1)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1)
   nuxt:
     specifier: ^3.11.1
-    version: 3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(unocss@0.58.6)(vite@5.2.4)
+    version: 3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(sass@1.75.0)(unocss@0.58.6)(vite@5.2.4)
   vue:
     specifier: ^3.4.21
     version: 3.4.21
@@ -25,6 +31,12 @@ devDependencies:
   html-loader:
     specifier: ^5.0.0
     version: 5.0.0(webpack@5.91.0)
+  sass:
+    specifier: ^1.75.0
+    version: 1.75.0
+  sass-loader:
+    specifier: ^14.2.0
+    version: 14.2.0(sass@1.75.0)(webpack@5.91.0)
 
 packages:
 
@@ -1500,14 +1512,14 @@ packages:
       mime: 3.0.0
     dev: false
 
-  /@coveo/atomic@2.62.1(@coveo/headless@2.57.1)(encoding@0.1.13)(postcss@8.4.38):
+  /@coveo/atomic@2.62.1(@coveo/headless@2.59.0)(encoding@0.1.13)(postcss@8.4.38):
     resolution: {integrity: sha512-qrRsNDw0ZzssgDpwy3XNRDGM5tBK1rvForuV0L0qCSMdC63CsNzEwdMkkvlj+Q6XtHXORTNlt9OcKFsBy/ylXw==}
     engines: {node: '>=12.9.0'}
     peerDependencies:
       '@coveo/headless': 2.57.1
     dependencies:
       '@coveo/bueno': 0.45.8
-      '@coveo/headless': 2.57.1(encoding@0.1.13)(pino-pretty@10.3.1)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1)
+      '@coveo/headless': 2.59.0(encoding@0.1.13)(pino-pretty@10.3.1)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1)
       '@popperjs/core': 2.11.8
       '@salesforce-ux/design-system': 2.23.2(postcss@8.4.38)
       '@stencil/core': 4.13.0
@@ -1533,8 +1545,26 @@ packages:
     resolution: {integrity: sha512-jZEtAc4BJ5MTEP9/FDwmkwM7bHVc/N3HHdnuOEJ+4vMnTBxBecndaxojFqoPcqJsINmRkD71XSUPQZUbbKXRrA==}
     dev: false
 
-  /@coveo/headless@2.57.1(encoding@0.1.13)(pino-pretty@10.3.1)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1):
-    resolution: {integrity: sha512-A1XqrNpN7LL7gDJ/svuYY+7wBWhLvOBuDdXwqqlKUB/2yMx3GvQyjZso4a4anF6kwuujLVyW8ncFxyAxnhUyXQ==}
+  /@coveo/headless-react@0.2.36(encoding@0.1.13)(pino-pretty@10.3.1)(react-dom@18.2.0)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1):
+    resolution: {integrity: sha512-TG+pr4JufeVFIfGYz+x2pZ2SqPySUUkqrUCZDOuBUA/zbJJfcAmabE7rxnQYlHgIZWiLxjGd3vR96XKOUbTeog==}
+    engines: {node: ^18 || ^20}
+    peerDependencies:
+      react: ^18
+      react-dom: ^18
+    dependencies:
+      '@coveo/headless': 2.59.0(encoding@0.1.13)(pino-pretty@10.3.1)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    transitivePeerDependencies:
+      - encoding
+      - pino-pretty
+      - react-native
+      - react-redux
+      - redux
+    dev: false
+
+  /@coveo/headless@2.59.0(encoding@0.1.13)(pino-pretty@10.3.1)(react-native@0.73.6)(react@18.2.0)(redux@5.0.1):
+    resolution: {integrity: sha512-G9Jp1BffEmFdigVzZncMqjSwcA8RGvYGbmIPT6hooE1ygQmzIRrIPQ30iYiVLeZe8DhXyizMInDCRtQcan3MXw==}
     engines: {node: '>=12'}
     peerDependencies:
       encoding: ^0.1.13
@@ -1544,9 +1574,9 @@ packages:
       '@coveo/relay': 0.7.4
       '@coveo/relay-event-types': 7.7.3
       '@microsoft/fetch-event-source': 2.0.1
-      '@reduxjs/toolkit': 2.2.1(react@18.2.0)
+      '@reduxjs/toolkit': 2.2.2(react@18.2.0)
       abab: 2.0.6
-      coveo.analytics: 2.29.3(encoding@0.1.13)(react-native@0.73.6)
+      coveo.analytics: 2.29.6(encoding@0.1.13)(react-native@0.73.6)
       dayjs: 1.11.10
       encoding: 0.1.13
       exponential-backoff: 3.1.0
@@ -2177,8 +2207,8 @@ packages:
       '@nuxt/kit': 3.11.1
       '@nuxt/schema': 3.11.1
       execa: 7.2.0
-      nuxt: 3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(unocss@0.58.6)(vite@5.2.4)
-      vite: 5.2.4
+      nuxt: 3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(sass@1.75.0)(unocss@0.58.6)(vite@5.2.4)
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -2229,7 +2259,7 @@ packages:
       launch-editor: 2.6.1
       local-pkg: 0.5.0
       magicast: 0.3.3
-      nuxt: 3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(unocss@0.58.6)(vite@5.2.4)
+      nuxt: 3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(sass@1.75.0)(unocss@0.58.6)(vite@5.2.4)
       nypm: 0.3.8
       ohash: 1.1.3
       pacote: 17.0.6
@@ -2242,7 +2272,7 @@ packages:
       simple-git: 3.23.0
       sirv: 2.0.4
       unimport: 3.7.1(rollup@4.13.0)
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
       vite-plugin-inspect: 0.8.3(@nuxt/kit@3.11.1)(vite@5.2.4)
       vite-plugin-vue-inspector: 4.0.2(vite@5.2.4)
       which: 3.0.1
@@ -2345,7 +2375,7 @@ packages:
   /@nuxt/ui-templates@1.3.1:
     resolution: {integrity: sha512-5gc02Pu1HycOVUWJ8aYsWeeXcSTPe8iX8+KIrhyEtEoOSkY0eMBuo0ssljB8wALuEmepv31DlYe5gpiRwkjESA==}
 
-  /@nuxt/vite-builder@3.11.1(vue@3.4.21):
+  /@nuxt/vite-builder@3.11.1(sass@1.75.0)(vue@3.4.21):
     resolution: {integrity: sha512-8DVK2Jb9xgfnvTfKr5mL3UDdAIrd3q3F4EmoVsXVKJe8NTt9LW38QdGwGViIQm9wzLDDEo0mgWF+n7WoGEH0xQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
     peerDependencies:
@@ -2381,8 +2411,8 @@ packages:
       ufo: 1.5.3
       unenv: 1.9.0
       unplugin: 1.10.0
-      vite: 5.2.4
-      vite-node: 1.4.0
+      vite: 5.2.4(sass@1.75.0)
+      vite-node: 1.4.0(sass@1.75.0)
       vite-plugin-checker: 0.6.4(vite@5.2.4)
       vue: 3.4.21
       vue-bundle-renderer: 2.0.0
@@ -2931,8 +2961,8 @@ packages:
       react-native: 0.73.6(@babel/core@7.24.3)(@babel/preset-env@7.24.3)(encoding@0.1.13)(react@18.2.0)
     dev: false
 
-  /@reduxjs/toolkit@2.2.1(react@18.2.0):
-    resolution: {integrity: sha512-8CREoqJovQW/5I4yvvijm/emUiCCmcs4Ev4XPWd4mizSO+dD3g5G6w34QK5AGeNrSH7qM8Fl66j4vuV7dpOdkw==}
+  /@reduxjs/toolkit@2.2.2(react@18.2.0):
+    resolution: {integrity: sha512-454GZrEx3G6QSYwIx9ROaso1HR6sTH8qyZBe3KEsdWVGU3ayV8jYCwdaEJV3vl9V6+pi3GRl+7Xl7AeDna6qwQ==}
     peerDependencies:
       react: ^16.9.0 || ^17.0.0 || ^18
       react-redux: ^7.2.1 || ^8.1.3 || ^9.0.0
@@ -3438,7 +3468,7 @@ packages:
       '@unocss/core': 0.58.6
       '@unocss/reset': 0.58.6
       '@unocss/vite': 0.58.6(vite@5.2.4)
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - rollup
     dev: false
@@ -3636,7 +3666,7 @@ packages:
       chokidar: 3.6.0
       fast-glob: 3.3.2
       magic-string: 0.30.8
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - rollup
     dev: false
@@ -3673,7 +3703,7 @@ packages:
       '@babel/core': 7.24.3
       '@babel/plugin-transform-typescript': 7.24.1(@babel/core@7.24.3)
       '@vue/babel-plugin-jsx': 1.2.2(@babel/core@7.24.3)
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
       vue: 3.4.21
     transitivePeerDependencies:
       - supports-color
@@ -3686,7 +3716,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
       vue: 3.4.21
     dev: false
 
@@ -5069,8 +5099,8 @@ packages:
       parse-json: 4.0.0
     dev: false
 
-  /coveo.analytics@2.29.3(encoding@0.1.13)(react-native@0.73.6):
-    resolution: {integrity: sha512-/Gv/4ZHV/UeXHUfbk+vMjaGdg7kYj0Y46dDF7e/8w8jZVvYChEMBNP3GYXSW8IUYUgM37R21tNuXUj9D+yx0NQ==}
+  /coveo.analytics@2.29.6(encoding@0.1.13)(react-native@0.73.6):
+    resolution: {integrity: sha512-TDL5dkjrs8l1UlApNQBlnK104FlLntHMtqDTcxPkHec496c+PMKJHVM2RpI/ukaq81YwGbVEHslLrawcjdU7pw==}
     dependencies:
       '@types/uuid': 9.0.8
       cross-fetch: 3.1.8(encoding@0.1.13)
@@ -6410,6 +6440,9 @@ packages:
   /immer@10.0.4:
     resolution: {integrity: sha512-cuBuGK40P/sk5IzWa9QPUaAdvPHjkk1c+xYsd9oZw+YQQEV+10G0P5uMpGctZZKnyQ+ibRO08bD25nWLmYi2pw==}
     dev: false
+
+  /immutable@4.3.5:
+    resolution: {integrity: sha512-8eabxkth9gZatlwl5TBuJnCsoTADlL6ftEr7A4qgdaTsPyreilDSnUk57SO+jfKcNtxPa22U5KK6DSeAYhpBJw==}
 
   /import-fresh@2.0.0:
     resolution: {integrity: sha512-eZ5H8rcgYazHbKC3PG4ClHNykCSxtAhxSSEM+2mb+7evD2CKF5V7c0dNum7AdpDh0ZdICwZY9sRSn8f+KH96sg==}
@@ -8003,7 +8036,7 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /nuxt@3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(unocss@0.58.6)(vite@5.2.4):
+  /nuxt@3.11.1(@unocss/reset@0.58.6)(encoding@0.1.13)(floating-vue@5.2.2)(sass@1.75.0)(unocss@0.58.6)(vite@5.2.4):
     resolution: {integrity: sha512-CsncE1dxP0cmOYT+PBdjMD0bOK8eZizG5tgNWUOJAAAtU45sO38maoBumYYL2kUpT/SC/dMP+831DAcVPvi9pQ==}
     engines: {node: ^14.18.0 || >=16.10.0}
     hasBin: true
@@ -8022,7 +8055,7 @@ packages:
       '@nuxt/schema': 3.11.1
       '@nuxt/telemetry': 2.5.3
       '@nuxt/ui-templates': 1.3.1
-      '@nuxt/vite-builder': 3.11.1(vue@3.4.21)
+      '@nuxt/vite-builder': 3.11.1(sass@1.75.0)(vue@3.4.21)
       '@unhead/dom': 1.8.20
       '@unhead/ssr': 1.8.20
       '@unhead/vue': 1.8.20(vue@3.4.21)
@@ -9067,6 +9100,16 @@ packages:
       - utf-8-validate
     dev: false
 
+  /react-dom@18.2.0(react@18.2.0):
+    resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.23.0
+    dev: false
+
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -9482,6 +9525,47 @@ packages:
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     requiresBuild: true
+    dev: false
+
+  /sass-loader@14.2.0(sass@1.75.0)(webpack@5.91.0):
+    resolution: {integrity: sha512-jxmjDXD9OYNDb2bp9JvopdE6QjecQY9beTWik/6sEHrsMxyo90Gyc471A4NUz60NLs4WsAh6yVtIvhLwEZcXeg==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      '@rspack/core': 0.x || 1.x
+      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0 || ^9.0.0
+      sass: ^1.3.0
+      sass-embedded: '*'
+      webpack: ^5.0.0
+    peerDependenciesMeta:
+      '@rspack/core':
+        optional: true
+      node-sass:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      webpack:
+        optional: true
+    dependencies:
+      neo-async: 2.6.2
+      sass: 1.75.0
+      webpack: 5.91.0
+    dev: true
+
+  /sass@1.75.0:
+    resolution: {integrity: sha512-ShMYi3WkrDWxExyxSZPst4/okE9ts46xZmJDSawJQrnte7M1V9fScVB+uNXOVKRBt0PggHOwoZcn8mYX4trnBw==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.6.0
+      immutable: 4.3.5
+      source-map-js: 1.2.0
+
+  /scheduler@0.23.0:
+    resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
+    dependencies:
+      loose-envify: 1.4.0
     dev: false
 
   /scheduler@0.24.0-canary-efb381bbf-20230505:
@@ -10381,7 +10465,7 @@ packages:
       '@unocss/transformer-directives': 0.58.6
       '@unocss/transformer-variant-group': 0.58.6
       '@unocss/vite': 0.58.6(vite@5.2.4)
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - postcss
       - rollup
@@ -10582,10 +10666,10 @@ packages:
     peerDependencies:
       vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0
     dependencies:
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     dev: false
 
-  /vite-node@1.4.0:
+  /vite-node@1.4.0(sass@1.75.0):
     resolution: {integrity: sha512-VZDAseqjrHgNd4Kh8icYHWzTKSCZMhia7GyHfhtzLW33fZlG9SwsB6CEhgyVOWkJfJ2pFLrp/Gj1FSfAiqH9Lw==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -10594,7 +10678,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.2
       picocolors: 1.0.0
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -10648,7 +10732,7 @@ packages:
       semver: 7.6.0
       strip-ansi: 6.0.1
       tiny-invariant: 1.3.3
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
       vscode-languageclient: 7.0.0
       vscode-languageserver: 7.0.0
       vscode-languageserver-textdocument: 1.0.11
@@ -10675,7 +10759,7 @@ packages:
       perfect-debounce: 1.0.0
       picocolors: 1.0.0
       sirv: 2.0.4
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - rollup
       - supports-color
@@ -10695,12 +10779,12 @@ packages:
       '@vue/compiler-dom': 3.4.21
       kolorist: 1.8.0
       magic-string: 0.30.8
-      vite: 5.2.4
+      vite: 5.2.4(sass@1.75.0)
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /vite@5.2.4:
+  /vite@5.2.4(sass@1.75.0):
     resolution: {integrity: sha512-vjFghvHWidBTinu5TCymJk/lRHlR5ljqB83yugr0HA1xspUPdOZHqbqDLnZ8f9/jINrtFHTCYYyIUi+o+Q5iyg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -10731,6 +10815,7 @@ packages:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.13.0
+      sass: 1.75.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: false
