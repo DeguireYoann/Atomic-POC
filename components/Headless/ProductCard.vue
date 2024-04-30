@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!nadir" class="col shadow-md hover:shadow-xl flex flex-col p-3">
+  <div v-if="!added" class="col shadow-md hover:shadow-xl flex flex-col p-3">
     <div
         class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md">
       <img :src="image" alt="Front of men&#039;s Basic Tee in black."
@@ -18,7 +18,8 @@
       <button class="bg-emerald-700 rounded-md p-3 font-bold text-white" @click="() => addToCart()">Add To Cart</button>
     </div>
   </div>
-  <div v-if="nadir" class="flex items-center justify-center h-[370px]"><h1 class="text-red-600 text-6xl font-black">Fuck U !</h1></div>
+  <div v-if="added" class="flex items-center justify-center h-[370px]"><h1 class="text-red-600 text-6xl font-black">
+    {{ randomResponse() }}</h1></div>
 </template>
 <script setup lang="ts">
 const props = defineProps({
@@ -29,10 +30,15 @@ const props = defineProps({
 
 const image = computed(() => props.product?.raw?.ec_images ?? props.product?.raw?.ec_images?.[0]);
 const title = computed(() => props.product?.title);
+const response = ['ಠ﹏ಠ','（⊙ｏ⊙) ','щ(゜ロ゜щ)','┗|｀O′|┛','(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧','(°ロ°)','(°ー°〃)','(* ￣︿￣)']
 
-
-let nadir = ref(false);
+let added = ref(false);
 const addToCart = () => {
-  nadir.value = true;
+  added.value = true;
+}
+
+const randomResponse = () => {
+  const index = Math.floor(Math.random() * response.length);
+  return response[index];
 }
 </script>

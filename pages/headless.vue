@@ -2,11 +2,15 @@
   <div class="flex flex-col items-center w-full">
     <HeadlessSearch/>
     <div class="flex justify-center w-full space-x-10">
-      <div class="flex flex-col space-y-10 w-[30%]">
-        <HeadlessFacets :controller="hydrateState?.controllers?.qualityFacet" :state="staticState.controllers.qualityFacet.state"/>
-        <HeadlessFacets :controller="hydrateState?.controllers?.sensorFacet" :state="staticState.controllers.sensorFacet.state"/>
-        <HeadlessFacets :controller="hydrateState?.controllers?.sourceFacet" :state="staticState.controllers.sourceFacet.state"/>
+        <div class="flex flex-col space-y-10 w-[30%]" v-if="ishydratedStatefetch">
+          <HeadlessFacets @refresh="refreshSearch" :state="staticState.controllers.qualityFacet.state" :controller="hydratedState.controllers.qualityFacet"/>
+          <HeadlessFacets @refresh="refreshSearch" :state="staticState.controllers.sensorFacet.state" :controller="hydratedState.controllers.sensorFacet"/>
+          <HeadlessFacets @refresh="refreshSearch" :state="staticState.controllers.sourceFacet.state" :controller="hydratedState.controllers.sourceFacet"/>
+        </div>
+      <div v-else class="w-[30%]">
+        <HeadlessFacetSkeleton />
       </div>
+
       <HeadlessProductsList :list="staticState.searchAction.payload.response"/>
     </div>
   </div>
@@ -16,61 +20,63 @@
 <script setup>
 import {
   buildSSRSearchParameterSerializer,
-  defineContext, defineFacet, defineResultList, defineSearchBox, defineSearchEngine, defineSearchParameterManager,
-  getSampleSearchEngineConfiguration
 } from '@coveo/headless/ssr';
-import {getOrganizationEndpoints} from "@coveo/headless";
 
-const runtimeConfig = useRuntimeConfig();
-// Config du Engine
-const config = {
-  configuration: {
-    // ...getSampleSearchEngineConfiguration(),
-    accessToken: runtimeConfig.public.COVEO_API,
-    organizationId: runtimeConfig.public.COVEO_PROJECT_NAME,
-    organizationEndpoints: getOrganizationEndpoints(runtimeConfig.public.COVEO_PROJECT_NAME),
-    analytics: {enabled: false},
-  },
-  controllers: {
-    context: defineContext(),
-    searchBox: defineSearchBox(),
-    resultList: defineResultList({options: {fieldsToInclude: ["ec_images"]}}),
-    sourceFacet: defineFacet({options: {field: 'Source'}}),
-    qualityFacet: defineFacet({options: {field: 'ec_quality'}}),
-    sensorFacet: defineFacet({options: {field: 'ec_sensor'}}),
-    searchParameterManager: defineSearchParameterManager(),
-  },
-}
-const engineDefinition = defineSearchEngine(config);
-
-// Récupérez les paramètres de recherche à partir de la requête
+const {fetchStaticState, hydrateStaticState} = useNuxtApp().$engineDefinition;
+const hydratedState = ref(null);
+const ishydratedStatefetch = ref(false);
+const contextValues = useUserContext();
 const route = useRoute();
-const {toSearchParameters} = buildSSRSearchParameterSerializer();
-const searchParameters = toSearchParameters(route.query);
+const {toSearchParameters, serialize} = buildSSRSearchParameterSerializer();
+const searchParameters = computed(() => {
+  return toSearchParameters(route.query);
+});
 
-// Définissez les valeurs de contexte
-const contextValues = {ageGroup: '30-45', mainInterest: 'mecanics', region: 'Canada Qc'};
+
 
 let staticState;
-const {fetchStaticState, hydrateStaticState} = engineDefinition;
-
 // Récupérez l'état statique en utilisant la méthode fetchStaticState
-staticState = await fetchStaticState({
-  controllers: {
-    context: {initialState: {values: contextValues}},
-    searchParameterManager: {initialState: {parameters: searchParameters}}
-  }
-});
-console.log(staticState)
-let hydrateState;
-onMounted(async () => {
-  hydrateState = await hydrateStaticState({
-    searchAction: staticState.searchAction,
+const getStaticState = async (params) => {
+  staticState = await fetchStaticState({
     controllers: {
       context: {initialState: {values: contextValues}},
-      searchParameterManager: {initialState: {parameters: searchParameters}}
+      searchParameterManager: {initialState: {parameters: params ?? searchParameters.value}}
+    }
+  });
+}
+await getStaticState()
+
+const getHydratedState = async (params) => {
+  const {searchParameterManager, context} = staticState.controllers;
+  hydratedState.value = await hydrateStaticState({
+    searchAction: staticState.searchAction,
+    controllers: {
+      context: {initialState: {values: context}},
+      searchParameterManager: {initialState: {parameters: params ?? searchParameterManager}}
     }
   })
-  console.log(hydrateState)
+  console.log(hydratedState.value)
+
+}
+
+onMounted(async () => {
+  try {
+    await getHydratedState();
+    ishydratedStatefetch.value = ishydratedStatefetch.value != null;
+  } catch (error) {
+    console.error('Error fetching data:');
+  }
 })
+
+const refreshSearch = async () => {
+  const controller = hydratedState.value.controllers.searchParameterManager;
+  const newURL = new URL(route.fullPath, 'http://localhost:3000');
+  const newRoute = serialize(controller.state.parameters, newURL);
+  const urlParams = newRoute.split(route.path)[1];
+  if(!urlParams.length) {
+    route.params = null;
+  }
+  navigateTo(newRoute, { external: true })
+  // await getStaticState(toSearchParameters(route.query))
+}
 </script>

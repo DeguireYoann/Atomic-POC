@@ -1,47 +1,42 @@
+import {defineSearchEngine} from '@coveo/headless/ssr';
 import {
-    defineSearchEngine,
-} from "@coveo/headless/ssr";
-import {
-    type Controller,
-    type ControllerDefinitionsMap,
-    type SearchEngine,
-    type SearchEngineDefinitionOptions,
-    getSampleSearchEngineConfiguration,
+    buildSSRSearchParameterSerializer,
+    defineContext,
     defineFacet,
     defineResultList,
     defineSearchBox,
-    defineContext,
-    defineSearchParameterManager,
+    defineSearchParameterManager
 } from '@coveo/headless/ssr';
+import {getOrganizationEndpoints} from "@coveo/headless";
 
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin((nuxtApp) => {
+    const runtimeConfig = useRuntimeConfig();
 
-// Configuration du SearchEngine
+    // Configuration du SearchEngine
     const config = {
         configuration: {
-            ...getSampleSearchEngineConfiguration(),
+            accessToken: runtimeConfig.public.COVEO_API,
+            organizationId: runtimeConfig.public.COVEO_PROJECT_NAME,
+            organizationEndpoints: getOrganizationEndpoints(runtimeConfig.public.COVEO_PROJECT_NAME),
             analytics: {enabled: false},
         },
         controllers: {
             context: defineContext(),
             searchBox: defineSearchBox(),
-            resultList: defineResultList(),
-            authorFacet: defineFacet({options: {field: 'Source'}}),
+            resultList: defineResultList({options: {fieldsToInclude: ["ec_images"]}}),
+            sourceFacet: defineFacet({options: {field: 'Source'}}),
+            qualityFacet: defineFacet({options: {field: 'ec_quality'}}),
+            sensorFacet: defineFacet({options: {field: 'ec_sensor'}}),
             searchParameterManager: defineSearchParameterManager(),
         },
-    } satisfies SearchEngineDefinitionOptions<
-        ControllerDefinitionsMap<SearchEngine, Controller>
-    >;
+    }
 
-// Definition du SearchEngine
+    // Définition du SearchEngine
     const engineDefinition = defineSearchEngine(config);
-
-// Static State (SSR) et Hydrate State Client
-    const {fetchStaticState, hydrateStaticState} = engineDefinition;
 
     return {
         provide: {
             engineDefinition,
         }
     }
-})
+});

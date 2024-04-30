@@ -9,9 +9,25 @@ interface UseSyncSearchParameterManagerProps {
     controller?: SearchParameterManager;
 }
 
-export function useSyncSearchParameterManager({ staticState, controller }: UseSyncSearchParameterManagerProps) {
+function useSearchParameterManager({
+                                       staticState,
+                                       controller,
+                                   }: UseSyncSearchParameterManagerProps) {
+    const searchParameters = ref(staticState);
+    onMounted(() => {
+        if (!controller) {
+            return;
+        }
+        return controller.subscribe(() => searchParameters.value = controller.state);
+    });
+    return searchParameters;
+}
+
+export function useSyncSearchParameterManager({staticState, controller}: UseSyncSearchParameterManagerProps) {
     const route = useRoute();
     let query = route.fullPath;
+    const state = useSearchParameterManager({staticState, controller});
+
 
     const searchParameters = ref(staticState); // Initialisez la variable searchParameters avec la valeur statique
 
@@ -29,7 +45,7 @@ export function useSyncSearchParameterManager({ staticState, controller }: UseSy
     // Utilisez onMounted pour mettre à jour l'interface de recherche
     onMounted(() => {
         if (!controller || !query) return;
-        const { toSearchParameters } = buildSSRSearchParameterSerializer();
+        const {toSearchParameters} = buildSSRSearchParameterSerializer();
         const searchParameters = toSearchParameters(route.params);
         controller.synchronize(searchParameters);
     });
@@ -37,7 +53,7 @@ export function useSyncSearchParameterManager({ staticState, controller }: UseSy
     // Utilisez computed pour calculer l'URL corrigée
     const correctedUrl = computed(() => {
         if (!query) return null;
-        const { serialize } = buildSSRSearchParameterSerializer();
+        const {serialize} = buildSSRSearchParameterSerializer();
         const newURL = new URL(query, 'http://localhost'); // Utilisez 'http://localhost' comme base URL
         return serialize(searchParameters.value.parameters, newURL);
     });
@@ -46,7 +62,7 @@ export function useSyncSearchParameterManager({ staticState, controller }: UseSy
     onMounted(() => {
         if (!correctedUrl.value || document.location.href === correctedUrl.value) return;
 
-        const { pathname } = new URL(correctedUrl.value);
+        const {pathname} = new URL(correctedUrl.value);
         if (pathname !== document.location.pathname) return;
 
         const isStaticState = controller === undefined;
@@ -60,5 +76,5 @@ export function useSyncSearchParameterManager({ staticState, controller }: UseSy
     });
 
     // Retournez les valeurs nécessaires
-    return { searchParameters, correctedUrl };
+    return {searchParameters, correctedUrl};
 }

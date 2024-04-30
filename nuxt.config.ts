@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     },
   },
   modules: ['@nuxtjs/tailwindcss'],
+  plugins: [
+    { src: '~/plugins/atomic.ts', ssr: false },
+  ],
   vite: {
     assetsInclude: ['**/*.html'],
     vue: {
