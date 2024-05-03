@@ -13,21 +13,36 @@
 </template>
 
 <script setup>
+// import type {FacetDefinition} from "@coveo/headless/ssr";
+// import type {PropType} from "vue";
+
 const props = defineProps({
-  controller: Object,
-  state: Object
+  hydratedController: Object,
+  staticController: Object
 });
-const emit = defineEmits(['refresh']);
-const { label, values, isLoading } = toRefs(props.state);
+
+const emit = defineEmits(['applyFilter']);
+let controllerState = ref(undefined);
+controllerState.value = props.staticController.state;
+const { label, values, isLoading } = toRefs(controllerState.value);
+
+watch(controllerState, () => {
+  console.log(controllerState)
+});
 
 const toggleSelect = (facet) => {
-  props.controller.toggleSelect(facet);
-  props.controller.facetSearch.search();
-  emit('refresh');
+  console.log(props.hydratedController, "OCO")
+  props.hydratedController.toggleSelect(facet);
+  props.hydratedController.search();
+  emit('applyFilter');
 };
 
 onMounted(() => {
-  props.controller.facetSearch.search();
+  const {$hydratedState} = useNuxtApp();
+  console.log($hydratedState,"YEET");
+  controllerState = props.hydratedController.state;
+  console.log(controllerState)
+  // props.controller.facetSearch.search();
   // props.controller.subscribe(() => {
   //   props.state.value = { ...props.controller.state };
   // });

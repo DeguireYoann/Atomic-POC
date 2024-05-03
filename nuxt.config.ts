@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  sourcemap: {
+    server: true,
+    client: true
+  },
   app: {
     head: {
       link: [
@@ -19,6 +23,9 @@ export default defineNuxtConfig({
   plugins: [
     { src: '~/plugins/atomic.ts', ssr: false },
   ],
+  build: {
+    transpile: ['@coveo/headless/ssr'],
+  },
   vite: {
     assetsInclude: ['**/*.html'],
     vue: {
