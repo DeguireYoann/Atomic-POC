@@ -14,16 +14,16 @@
 
 <script setup>
 const props = defineProps({
-  hydratedController: Object,
-  staticController: Object
+  controller: Object
 });
 
 const emit = defineEmits(['applyFilter']);
-const { label, values, isLoading } = props.staticController.state;
+const { label, values, isLoading } = props.controller.state;
 
 const toggleSelect = (facet) => {
-  props.hydratedController.toggleSelect(facet);
-  props.hydratedController.facetSearch.search();
+  props.controller.toggleSelect(facet);
+  props.controller.facetSearch.search();
   emit('applyFilter');
 };
+props.controller.facetSearch.search();
 </script>
