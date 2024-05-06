@@ -1,16 +1,21 @@
 <template>
   <div class="bg-white w-full">
     <div class="mx-auto max-w-2xl lg:max-w-7xl">
-<!--      <span>{{state.totalCountFiltered}} items</span>-->
       <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-3 xl:gap-x-8">
-        <HeadlessProductCard v-for="item in state.results" :product="item" />
+        <HeadlessProductCard v-for="item in staticState.results" :product="item" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import {watch} from "vue";
+
 const props = defineProps({
-  state: Object
+  hydratedController: Object,
+  staticState: Object,
 });
+watch(() => props.hydratedController, async () => {
+  props.hydratedController.subscribe(()=> props.staticState = {...props.hydratedController.state});
+})
 </script>

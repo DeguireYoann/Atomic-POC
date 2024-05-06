@@ -52,13 +52,13 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
     };
 
-    const getHydratedState = async (staticState: CoveoSearchStaticState, params?: any) => {
+    const getHydratedState = async (staticState: CoveoSearchStaticState, params?: SearchParameters) => {
         try {
             hydratedState = await engineDefinition.hydrateStaticState({
                 searchAction: staticState.searchAction,
                 controllers: {
                     context: {initialState: {values: staticState.controllers.context}},
-                    searchParameterManager: {initialState: {parameters: params ?? staticState.controllers.searchParameterManager}}
+                    searchParameterManager: {initialState: {parameters: params ?? staticState.controllers.searchParameterManager.state.parameters}}
                 }
             });
             return hydratedState;
@@ -68,12 +68,12 @@ export default defineNuxtPlugin((nuxtApp) => {
         }
     };
 
-    const refreshState = (parameters: SearchParameters) => {
+    const refreshState = async (parameters: SearchParameters) => {
         const newURL = new URL(route.fullPath, 'http://localhost:3000');
         const newRoute = serialize(parameters, newURL);
         const urlParams = newRoute.split(route.path)[1];
         const direction = urlParams.length > 0 ? urlParams : route.path;
-        navigateTo(direction)
+        await navigateTo(direction)
     }
 
     return {

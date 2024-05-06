@@ -13,38 +13,29 @@
 </template>
 
 <script setup>
-// import type {FacetDefinition} from "@coveo/headless/ssr";
-// import type {PropType} from "vue";
-
 const props = defineProps({
-  hydratedController: Object,
-  staticController: Object
+  type: String,
+  staticState: Object
 });
 
 const emit = defineEmits(['applyFilter']);
-let controllerState = ref(undefined);
-controllerState.value = props.staticController.state;
-const { label, values, isLoading } = toRefs(controllerState.value);
-
-watch(controllerState, () => {
-  console.log(controllerState)
-});
+const { label, values, isLoading } = toRefs(props.staticState);
 
 const toggleSelect = (facet) => {
-  console.log(props.hydratedController, "OCO")
   props.hydratedController.toggleSelect(facet);
-  props.hydratedController.search();
+  props.hydratedController.facetSearch.search();
   emit('applyFilter');
 };
 
-onMounted(() => {
-  const {$hydratedState} = useNuxtApp();
-  console.log($hydratedState,"YEET");
-  controllerState = props.hydratedController.state;
-  console.log(controllerState)
-  // props.controller.facetSearch.search();
-  // props.controller.subscribe(() => {
-  //   props.state.value = { ...props.controller.state };
-  // });
+watch(() => props.hydratedController, async () => {
+  props.hydratedController.subscribe(()=> props.staticState = {...props.hydratedController.state});
+  props.hydratedController.facetSearch.search();
+})
+
+onMounted(()=> {
+  if (!props.hydratedController) {
+    console.log(useNuxtApp().$hydratedState)
+    props.hydratedController = useNuxtApp().$hydratedState?.controllers[props.type];
+  }
 })
 </script>
