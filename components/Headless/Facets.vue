@@ -14,28 +14,16 @@
 
 <script setup>
 const props = defineProps({
-  type: String,
-  staticState: Object
+  hydratedController: Object,
+  staticController: Object
 });
 
 const emit = defineEmits(['applyFilter']);
-const { label, values, isLoading } = toRefs(props.staticState);
+const { label, values, isLoading } = props.staticController.state;
 
 const toggleSelect = (facet) => {
   props.hydratedController.toggleSelect(facet);
   props.hydratedController.facetSearch.search();
   emit('applyFilter');
 };
-
-watch(() => props.hydratedController, async () => {
-  props.hydratedController.subscribe(()=> props.staticState = {...props.hydratedController.state});
-  props.hydratedController.facetSearch.search();
-})
-
-onMounted(()=> {
-  if (!props.hydratedController) {
-    console.log(useNuxtApp().$hydratedState)
-    props.hydratedController = useNuxtApp().$hydratedState?.controllers[props.type];
-  }
-})
 </script>
