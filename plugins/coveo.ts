@@ -69,14 +69,17 @@ export default defineNuxtPlugin((nuxtApp) => {
     };
 
     const refreshState = async (parametersManager: any) => {
+        await synchronizeUrl(parametersManager.state.parameters).then(()=> {
+            parametersManager.synchronize(parametersManager.state.parameters);
+        })
+    }
+
+    const synchronizeUrl = async (params: SearchParameters) => {
         const newURL = new URL(route.fullPath, 'http://localhost:3000');
-        const newRoute = serialize(parametersManager.state.parameters, newURL);
+        const newRoute = serialize(params, newURL);
         const urlParams = newRoute.split(route.path)[1];
         const direction = urlParams.length > 0 ? urlParams : route.path;
         await navigateTo(direction);
-        // const {toSearchParameters} = buildSSRSearchParameterSerializer();
-        // const searchParameters = toSearchParameters(historyRouter.url.searchParams);
-        parametersManager.synchronize(parametersManager.state.parameters);
     }
 
     return {
