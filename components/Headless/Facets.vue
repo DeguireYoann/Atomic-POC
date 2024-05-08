@@ -18,12 +18,15 @@ const props = defineProps({
   staticController: Object
 });
 
+onUpdated(() => {
+  console.log(document.getElementById('count').textContent)
+})
+
 const emit = defineEmits(['applyFilter']);
 const { label, values, isLoading } = props.staticController.state;
 
 const toggleSelect = (facet) => {
   props.hydratedController.toggleSelect(facet);
-  props.hydratedController.facetSearch.search();
   emit('applyFilter');
 };
 </script>

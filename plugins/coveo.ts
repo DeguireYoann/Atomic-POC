@@ -74,9 +74,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         const urlParams = newRoute.split(route.path)[1];
         const direction = urlParams.length > 0 ? urlParams : route.path;
         await navigateTo(direction);
-        // const {toSearchParameters} = buildSSRSearchParameterSerializer();
-        // const searchParameters = toSearchParameters(historyRouter.url.searchParams);
-        parametersManager.synchronize(parametersManager.state.parameters);
     }
 
     return {
