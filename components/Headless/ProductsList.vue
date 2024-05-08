@@ -9,9 +9,11 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  state: {
-    required: true,
-  }
-});
+const { $staticStateRef, $hydratedStateRef} = useNuxtApp();
+const state = $staticStateRef.value.controllers.resultList.state;
+const controller = $hydratedStateRef.value.controllers.resultList;
+
+watchEffect(() => {
+  controller?.subscribe(()=> Object.assign(state,{...controller.state}))
+})
 </script>

@@ -13,15 +13,21 @@
 </template>
 
 <script setup>
-const props = defineProps({
-  controller: Object
-});
+const {type} = defineProps({
+  type: String,
+})
 
-const emit = defineEmits(['applyFilter']);
-const { label, values, isLoading } = props.controller.state;
+const { $staticStateRef, $hydratedStateRef} = useNuxtApp();
+const state = $staticStateRef.value.controllers[type].state;
+const controller = $hydratedStateRef.value.controllers[type];
+
+const { label, values, isLoading } = state;
 
 const toggleSelect = (facet) => {
-  props.controller.toggleSelect(facet);
-  emit('applyFilter');
+  controller.toggleSelect(facet);
+  useSearchParameterManager($hydratedStateRef.value.controllers.searchParameterManager);
 };
+watchEffect(() => {
+  controller?.subscribe(()=> Object.assign(state,{...controller.state}))
+})
 </script>
