@@ -1,5 +1,9 @@
 import {
-    buildSSRSearchParameterSerializer, defineContext, defineFacet, defineResultList, defineSearchBox,
+    buildSSRSearchParameterSerializer,
+    defineContext,
+    defineFacet,
+    defineResultList,
+    defineSearchBox,
     defineSearchEngine,
     defineSearchParameterManager,
     type SearchParameters
@@ -69,9 +73,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     };
 
     const refreshState = async (parametersManager: any) => {
-        await synchronizeUrl(parametersManager.state.parameters).then(()=> {
-            parametersManager.synchronize(parametersManager.state.parameters);
-        })
+        await synchronizeUrl(parametersManager.state.parameters);
     }
 
     const synchronizeUrl = async (params: SearchParameters) => {

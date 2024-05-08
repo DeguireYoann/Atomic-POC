@@ -9,11 +9,9 @@
         <HeadlessFacets
             @applyFilter="refreshSearch"
             :controller="hydratedState.controllers.sensorFacet"/>
-
         <HeadlessFacets
             @applyFilter="refreshSearch"
             :controller="hydratedState.controllers.sourceFacet"/>
-
       </div>
       <HeadlessProductsList
           :state="hydratedState.controllers.resultList.state"/>
@@ -41,7 +39,6 @@ staticState = await getStaticState();
 
 const refreshSearch = async () => {
   $refreshState(hydratedState.controllers.searchParameterManager);
-  staticState.controllers.resultList.state = hydratedState.controllers.resultList.state;
 }
 
 const getHydratedState = async () => {

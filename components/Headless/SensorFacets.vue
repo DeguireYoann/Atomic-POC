@@ -1,3 +1,16 @@
+<script setup>
+const {$useSensorFacet} = useNuxtApp();
+const {state, methods} = $useSensorFacet();
+
+const emit = defineEmits(['applyFilter']);
+const { label, values, isLoading } = state;
+
+const toggleSelect = (facet) => {
+  methods.toggleSelect(facet);
+  emit('applyFilter');
+};
+</script>
+
 <template>
   <div v-if="!isLoading" class="grid flex flex-col border p-3">
     <div class="flex flex-col">
@@ -12,16 +25,6 @@
   <div v-else class="text-center">Loading...</div>
 </template>
 
-<script setup>
-const props = defineProps({
-  controller: Object
-});
+<style scoped>
 
-const emit = defineEmits(['applyFilter']);
-const { label, values, isLoading } = props.controller.state;
-
-const toggleSelect = (facet) => {
-  props.controller.toggleSelect(facet);
-  emit('applyFilter');
-};
-</script>
+</style>
