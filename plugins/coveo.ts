@@ -7,14 +7,19 @@ import {
 import {getOrganizationEndpoints} from "@coveo/headless";
 import type {CoveoSearchHydratedState, CoveoSearchStaticState} from "~/types/coveo";
 
-export default defineNuxtPlugin((nuxtApp) => {
+interface reactiveState {
+    value: CoveoSearchStaticState | CoveoSearchHydratedState | undefined
+}
+export default defineNuxtPlugin(async (nuxtApp) => {
     const runtimeConfig = useRuntimeConfig();
     const route = useRoute();
     const {toSearchParameters, serialize} = buildSSRSearchParameterSerializer();
     const searchParameters = toSearchParameters(route.query as any);
     const contextValues = useUserContext();
-    let hydratedState = reactive<CoveoSearchHydratedState | undefined>(undefined);
-    let staticState = reactive<CoveoSearchStaticState | undefined>(undefined);
+
+    let hydratedStateRef = reactive<reactiveState>({value: undefined});
+    let staticStateRef = reactive<reactiveState>({value: undefined});
+    let staticState: CoveoSearchStaticState;
     // Configuration du SearchEngine
     const config = {
         configuration: {
@@ -45,45 +50,45 @@ export default defineNuxtPlugin((nuxtApp) => {
                     searchParameterManager: {initialState: {parameters: searchParameters}}
                 }
             })
-            return staticState;
+            staticStateRef.value = staticState;
         } catch (error) {
             console.error('Error fetching static state:', error);
             throw error;
         }
     };
-
+    await getStaticState();
     const getHydratedState = async (staticState: CoveoSearchStaticState, params?: SearchParameters) => {
         try {
-            hydratedState = await engineDefinition.hydrateStaticState({
+            hydratedStateRef.value = await engineDefinition.hydrateStaticState({
                 searchAction: staticState.searchAction,
                 controllers: {
                     context: {initialState: {values: staticState.controllers.context}},
                     searchParameterManager: {initialState: {parameters: params ?? staticState.controllers.searchParameterManager.state.parameters}}
                 }
             });
-            return hydratedState;
+            return hydratedStateRef;
         } catch (error) {
             console.error('Error fetching hydrated state:', error);
             throw error;
         }
     };
 
-    const refreshState = async (parametersManager: any) => {
-        const newURL = new URL(route.fullPath, 'http://localhost:3000');
-        const newRoute = serialize(parametersManager.state.parameters, newURL);
-        const urlParams = newRoute.split(route.path)[1];
-        const direction = urlParams.length > 0 ? urlParams : route.path;
-        await navigateTo(direction);
-    }
-
+    watchEffect(async () => {
+        if (staticStateRef.value) {
+            try {
+                await getHydratedState(staticState);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    });
     return {
         provide: {
             engineDefinition,
             getStaticState,
             getHydratedState,
-            hydratedState,
-            staticState,
-            refreshState
+            hydratedStateRef,
+            staticStateRef,
         }
     }
 });
