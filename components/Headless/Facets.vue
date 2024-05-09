@@ -27,6 +27,7 @@ const toggleSelect = (facet) => {
   controller.toggleSelect(facet);
   useSearchParameterManager($hydratedStateRef.value.controllers.searchParameterManager);
 };
+
 watchEffect(() => {
   controller?.subscribe(()=> Object.assign(state,{...controller.state}))
 })

@@ -3,12 +3,8 @@
     <HeadlessSearch/>
     <div class="flex justify-center w-full space-x-10">
       <div class="flex flex-col space-y-10 w-[30%]">
-        <HeadlessFacets
-            type="qualityFacet"/>
-        <HeadlessFacets
-            type="sensorFacet"/>
-        <HeadlessFacets
-            type="sourceFacet"/>
+        <HeadlessFacets v-for="type in facetTypes" :key="type"
+            :type="type"/>
       </div>
       <HeadlessProductsList/>
     </div>
@@ -17,4 +13,5 @@
 
 <script setup lang="ts">
 const {$hydratedStateRef} = useNuxtApp();
+const facetTypes = ['qualityFacet', 'sensorFacet', 'sourceFacet'];
 </script>

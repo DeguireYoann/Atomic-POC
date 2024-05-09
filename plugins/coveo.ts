@@ -5,11 +5,8 @@ import {
     type SearchParameters
 } from '@coveo/headless/ssr';
 import {getOrganizationEndpoints} from "@coveo/headless";
-import type {CoveoSearchHydratedState, CoveoSearchStaticState} from "~/types/coveo";
+import type {CoveoSearchStaticState, reactiveState} from "~/types/coveo";
 
-interface reactiveState {
-    value: CoveoSearchStaticState | CoveoSearchHydratedState | undefined
-}
 export default defineNuxtPlugin(async (nuxtApp) => {
     const runtimeConfig = useRuntimeConfig();
     const route = useRoute();
@@ -20,6 +17,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
     let hydratedStateRef = reactive<reactiveState>({value: undefined});
     let staticStateRef = reactive<reactiveState>({value: undefined});
     let staticState: CoveoSearchStaticState;
+
     // Configuration du SearchEngine
     const config = {
         configuration: {
@@ -57,6 +55,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         }
     };
     await getStaticState();
+
     const getHydratedState = async (staticState: CoveoSearchStaticState, params?: SearchParameters) => {
         try {
             hydratedStateRef.value = await engineDefinition.hydrateStaticState({
@@ -82,6 +81,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             }
         }
     });
+
     return {
         provide: {
             engineDefinition,
