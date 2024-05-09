@@ -10,6 +10,7 @@ import type {CoveoSearchStaticState, reactiveState} from "~/types/coveo";
 export default defineNuxtPlugin(async (nuxtApp) => {
     const runtimeConfig = useRuntimeConfig();
     const route = useRoute();
+    const router = useRouter();
     const {toSearchParameters, serialize} = buildSSRSearchParameterSerializer();
     const searchParameters = toSearchParameters(route.query as any);
     const contextValues = useUserContext();

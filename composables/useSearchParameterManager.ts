@@ -1,6 +1,8 @@
 import {buildSSRSearchParameterSerializer} from "@coveo/headless/ssr";
 
 export const useSearchParameterManager = async (parametersManager: any) => {
+    const { $staticStateRef, $hydratedStateRef} = useNuxtApp();
+
     const route = useRoute();
     const {serialize} = buildSSRSearchParameterSerializer();
 
