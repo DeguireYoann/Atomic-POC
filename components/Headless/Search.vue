@@ -39,7 +39,7 @@ const updateSearchText = (event) => {
 
 const search = () => {
   controller.value.submit();
-  useSearchParameterManager($hydratedStateRef.value.controllers.searchParameterManager);
+  useSearchParameterManager();
 };
 
 watchEffect(() => {

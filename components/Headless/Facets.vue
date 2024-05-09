@@ -25,7 +25,7 @@ const controller = ref($hydratedStateRef.value.controllers[type]);
 
 const toggleSelect = (facet) => {
   controller.value.toggleSelect(facet);
-  useSearchParameterManager($hydratedStateRef?.value?.controllers.searchParameterManager);
+  useSearchParameterManager();
 };
 
 watchEffect(() => {
