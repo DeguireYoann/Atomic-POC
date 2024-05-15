@@ -1,5 +1,10 @@
 import {
-    buildSSRSearchParameterSerializer, defineContext, defineFacet, defineResultList, defineSearchBox,
+    buildSSRSearchParameterSerializer,
+    defineAutomaticFacetGenerator,
+    defineContext,
+    defineFacet,
+    defineResultList,
+    defineSearchBox,
     defineSearchEngine,
     defineSearchParameterManager,
     type SearchParameters
@@ -25,7 +30,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             accessToken: runtimeConfig.public.COVEO_API,
             organizationId: runtimeConfig.public.COVEO_PROJECT_NAME,
             organizationEndpoints: getOrganizationEndpoints(runtimeConfig.public.COVEO_PROJECT_NAME),
-            analytics: {enabled: false},
+            analytics: {enabled: true},
         },
         controllers: {
             context: defineContext(),
@@ -34,13 +39,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
             sourceFacet: defineFacet({options: {field: 'Source'}}),
             qualityFacet: defineFacet({options: {field: 'ec_quality'}}),
             sensorFacet: defineFacet({options: {field: 'ec_sensor'}}),
+            facetGenerator: defineAutomaticFacetGenerator({options: {}}),
             searchParameterManager: defineSearchParameterManager(),
         },
     }
 
     // Définition du SearchEngine
     const engineDefinition = defineSearchEngine(config);
-
     const getStaticState = async () => {
         try {
             staticState = await engineDefinition.fetchStaticState({

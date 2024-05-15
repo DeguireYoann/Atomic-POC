@@ -4,6 +4,7 @@
       <div class="flex flex-col space-y-10 w-[30%]">
         <HeadlessFacets v-for="type in facetTypes" :key="type"
                         :type="type"/>
+        <HeadlessFacetGenerator />
       </div>
       <div class="flex flex-col space-y-10">
         <HeadlessSearch/>

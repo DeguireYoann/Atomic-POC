@@ -1,5 +1,6 @@
 <template>
   <atomic-layout-section section="facets">
+    <atomic-automatic-facet-generator></atomic-automatic-facet-generator>
     <atomic-category-facet field="source" label="Categories"></atomic-category-facet>
     <atomic-facet-manager>
       <atomic-facet field="source" label="Source" sort-criteria="automatic"></atomic-facet>
